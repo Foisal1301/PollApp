@@ -1,0 +1,6 @@
+vote card rwd
+privacy settings
+change password
+delete account
+forget password
+activationmail

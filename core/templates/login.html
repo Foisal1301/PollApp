@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}<br/><br/>
+	<div class="shadow p-3 mb-5 bg-body rounded">
+		{% if user.is_authenticated %}
+		<center><h1>You have already logged in</h1></center>
+		{% else %}
+		<center><h1>Login</h1></center>
+		{% if form.errors %}
+	        {% for field in form %}
+	            {% for error in field.errors %}
+	                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+					  {{ error|escape }}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+	            {% endfor %}
+	        {% endfor %}
+	    {% endif %}
+		<form action="." method="POST">
+			{% csrf_token %}
+			<div class="form-floating mb-3">
+			  <input type="text" class="form-control" id="id_username" placeholder="Username" name="username" maxlength="150">
+			  <label for="id_username">Username</label>
+			</div>
+			<div class="form-floating">
+			  <input type="password" class="form-control" id="id_password" name='password' placeholder="Password">
+			  <label for="id_password">Password</label>
+			</div><br/>
+			<input onclick="showPassword()" type="checkbox" value="">
+    <label>Show Password</label>
+			<br/>
+			Don't have an account?<a href="/user/signup">Create one!</a><br/><br/>
+			<div class="row"><button class="btn btn-success">Login</button></div>
+		</form>
+		{% endif %}
+	</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    function showPassword(){
+        var p1 = document.getElementById('id_password');
+        if (p1.type === 'password'){
+            p1.type = 'text';
+        }else{
+            p1.type = 'password';
+        }
+    }
+</script>
+{% endblock %}
