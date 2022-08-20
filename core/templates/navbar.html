@@ -18,7 +18,7 @@
           </a>
           <ul class="dropdown-menu">
             {% if user.is_authenticated %}
-            <li><a class="dropdown-item" href="#">Privacy Settings</a></li>
+            <li><a class="dropdown-item" href="{% url 'privacy-settings' %}">Privacy Settings</a></li>
             <li><a class="dropdown-item" href="#">Change your password</a></li>
             <li><a class="dropdown-item" href="{% url 'delete-account' %}">Delete your account</a></li>
             <li><hr class="dropdown-divider"></li>

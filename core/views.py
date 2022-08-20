@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect
 from .models import Topic,Choice
 from django.contrib import messages
-from .forms import SignUpForm,AddPollForm
-from django.contrib.auth import login,authenticate,logout
+from .forms import SignUpForm,AddPollForm,PrivacyForm,PasswordChangingForm
+from django.contrib.auth import login,authenticate,logout,update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
@@ -158,3 +158,18 @@ def delete_account(request):
 
 	else:
 		return render(request,'delete_account.html',{})
+
+@login_required
+def privacy_settings(request):
+    form = PrivacyForm(request.POST or None,instance=request.user)
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        return redirect("topics")
+
+    return render(request,"privacy_settings.html",{"form":form})
+
+
+@login_required
+def change_password(request):
+	pass
