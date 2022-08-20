@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from .models import Topic,Choice
 from django.contrib import messages
 from .forms import SignUpForm,AddPollForm
-from django.contrib.auth import login,authenticate
+from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
@@ -131,6 +131,7 @@ def signup(request):
 			else:
 				if form.is_valid:
 					form.save()
+					message.success(request,'Account is created successfully!')
 					login(request,authenticate(username=request.POST['username'],password=request.POST['password1']))
 					return redirect('topics')
 
@@ -139,3 +140,21 @@ def signup(request):
 			return render(request,'signup.html',{
 				'form':form
 				})
+
+@login_required
+def delete_account(request):
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+		if request.user == authenticate(request,username=username,password=password):
+			user = request.user
+			logout(request)
+			user.delete()
+			messages.success(request,'User is deleted successfully!')
+			return redirect('topics')
+		else:
+			messages.error(request,"Incorrect username or password")
+			return redirect('delete-account')
+
+	else:
+		return render(request,'delete_account.html',{})
