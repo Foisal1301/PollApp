@@ -5,7 +5,7 @@
 	<div class="shadow p-3 mb-5 bg-body rounded card" style="width: 100%">
 	  <div class="card-body">
 	    <h5 class="card-title"><center>{{ topic.name }}</center></h5>
-	    <h6 class="card-subtitle mb-2 text-muted"><center>Created by {{ topic.owner }}{% if user == topic.owner %}<br>
+	    <h6 class="card-subtitle mb-2 text-muted"><center>Created by {{ topic.owner }}{% if user == topic.owner %}<br>Total votes : {{ topic.total_voters }}<br>
 	    	<a href="{% url 'update-topic' topic.id %}">Update</a>|<a href="{% url 'delete-topic' topic.id %}">Delete</a>{% endif %}</center></h6>
 	    <p class="card-text"></p>
 	    {% if choices %}
