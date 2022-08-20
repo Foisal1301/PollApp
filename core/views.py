@@ -91,7 +91,9 @@ def update_choice(request,pk):
 	choice = Choice.objects.get(pk=pk)
 	if request.user.is_superuser or request.user == choice.topic.owner:
 		if request.method =="POST":
-			choice.name = request.POST['name']
+			if choice.name != request.POST['name']:
+				choice.name = request.POST['name']
+				choice.save()
 			messages.success(request,"choice is updated successfully!")
 			return redirect('topic',pk=choice.topic.id)
 
