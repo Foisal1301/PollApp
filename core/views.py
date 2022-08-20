@@ -173,3 +173,23 @@ def privacy_settings(request):
 @login_required
 def change_password(request):
 	pass
+
+def login_user(request):
+	if request.user.is_authenticated:
+		messages.error(request,'You are already logged in!')
+		return redirect('topics')
+	else:
+		if request.method == 'POST':
+			email = request.POST['email']
+			password = request.POST['password']
+			user = authenticate(request,username=User.objects.get(email=email),password=password)
+			if user is not None:
+				login(request,user)
+				messages.success(request,'Logged in successfully!')
+				return redirect('topics')
+			else:
+				messages.error(request,'There was an error..try again!')
+				return redirect('login')
+
+		else:
+			return render(request,'login.html',{})

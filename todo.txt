@@ -1,5 +1,3 @@
-vote card rwd
-login modified
 change password
 forget password
 activationmail

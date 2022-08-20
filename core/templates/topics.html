@@ -1,27 +1,33 @@
 {% extends 'base.html' %}
 {% block title %}Polls{% endblock %}
 {% block styles %}
-<style type="text/css">
-	#topics{
-		margin: 1rem;
-	}
-	.topic{
-		margin-right: 5rem;
-		margin-bottom: 1rem;
-	}
-</style>
 {% endblock %}
 {% block content %}
 
 <br/>
-<div class="row" id="topics">
+<div class="row" style="margin: 1rem;padding:0.5rem;">  
+      {% for room in rooms %} 
+        <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" style="margin-bottom:1rem;">
+          <div class="card" style="border-radius: 1rem;">
+            <div class="card-body text-center">
+              <h1 class="card-title">{{ room.name }}</h1>
+              <div class="card-text">
+                <b>Owner :</b>  {{ room.owner }}<br><br>
+              </div>
+              <a href="{% url "room" room.uuid %}" class="w-100 btn">Join</a>
+            </div>
+          </div>
+        </div>  
+      {% endfor %} 
+    </div>
+
 {% if topics %}
 	<div class="row" style="margin-bottom:2rem;">
 		<a href="{% url 'add-topic' %}" class="btn btn-success">Add Poll</a>	
 	</div>
+	<div class="row">
 	{% for topic in topics %}
-		<div class="col-lg-3 col-sm-6 col-md-3 col-xs-12 topic">
-			<div class="card" style="width: 18rem;">
+			<div class="card" style="width: 100%;margin-bottom: 1rem;">
 	  			<div class="card-body">
 	    			<h5 class="card-title">{{ topic.name }}</h5>
 	    			<h6 class="card-subtitle mb-2 text-muted">created by {{ topic.owner }}</h6>
@@ -33,7 +39,6 @@
 	    			{% endif %}
 	  			</div>
 			</div>
-		</div>
 	{% endfor %}
 {% else %}
 	<center><h1>No Polls here</h1><a href="{% url 'add-topic' %}">Add Poll</a></center>
