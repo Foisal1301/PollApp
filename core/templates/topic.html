@@ -40,7 +40,7 @@
 		{% endif %}
 	  </div>
 	</div>
-	{% if user.is_superuser or user == chice.owner %}
+	{% if user.is_superuser or user == topic.owner %}
 	<div class="shadow p-3 mb-5 bg-body rounded">
 		<center><h1>Add Option</h1></center>
 		<form action="/add_choice/{{ topic.id }}/" method="POST">
