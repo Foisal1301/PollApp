@@ -131,22 +131,22 @@ def signup(request):
 			else:
 				if form.is_valid:
 					form.save()
-					message.success(request,'Account is created successfully!')
+					messages.success(request,'Account is created successfully!')
 					login(request,authenticate(username=request.POST['username'],password=request.POST['password1']))
 					return redirect('topics')
 
 		else:
 			form = SignUpForm()
-			return render(request,'signup.html',{
-				'form':form
-				})
+
+		return render(request,'signup.html',{
+		'form':form
+		})
 
 @login_required
 def delete_account(request):
 	if request.method == 'POST':
-		username = request.POST['username']
 		password = request.POST['password']
-		if request.user == authenticate(request,username=username,password=password):
+		if request.user == authenticate(request,username=request.user.username,password=password):
 			user = request.user
 			logout(request)
 			user.delete()
@@ -172,7 +172,18 @@ def privacy_settings(request):
 
 @login_required
 def change_password(request):
-	pass
+	if request.method == "POST":
+		form = PasswordChangingForm(request.user,request.POST)
+		if form.is_valid():
+			user = form.save()
+			update_session_auth_hash(request,user)
+			messages.success(request,'Your password is changed successfully!')
+			return redirect('topics')
+
+	else:
+		form = PasswordChangingForm(request.user)
+
+	return render(request,'change_password.html',{'form':form})
 
 def login_user(request):
 	if request.user.is_authenticated:
@@ -182,14 +193,17 @@ def login_user(request):
 		if request.method == 'POST':
 			email = request.POST['email']
 			password = request.POST['password']
-			user = authenticate(request,username=User.objects.get(email=email),password=password)
+			try:
+				user = authenticate(request,username=User.objects.get(email=email),password=password)
+			except:
+				messages.error(request,'Incorrect username or password!')
+				return redirect('login')
 			if user is not None:
 				login(request,user)
 				messages.success(request,'Logged in successfully!')
 				return redirect('topics')
 			else:
-				messages.error(request,'There was an error..try again!')
+				messages.error(request,'Incorrect username or password!')
 				return redirect('login')
 
-		else:
-			return render(request,'login.html',{})
+		return render(request,'login.html',{})

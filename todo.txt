@@ -1,3 +1,2 @@
-change password
 forget password
 activationmail

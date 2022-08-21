@@ -18,5 +18,5 @@ urlpatterns = [
     path('user/signup/',views.signup,name='signup'),
     path('user/delete/',views.delete_account,name='delete-account'),
     path('user/privacy_settings/',views.privacy_settings,name='privacy-settings'),
-    #path('user/change_password/',views.change_password,name='change-password'),
+    path('user/change_password/',views.change_password,name='change-password'),
 ]

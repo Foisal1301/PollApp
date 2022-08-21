@@ -14,10 +14,6 @@
 	    {% endif %}
 		<form action="." method="POST">
 			{% csrf_token %}
-			<div class="form-floating mb-3">
-			  <input type="text" class="form-control" id="id_username" placeholder="Username" name="username" maxlength="150">
-			  <label for="id_username">Username</label>
-			</div>
 			<div class="form-floating">
 			  <input type="password" class="form-control" id="id_password" name='password' placeholder="Password">
 			  <label for="id_password">Password</label>
